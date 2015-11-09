@@ -4,7 +4,7 @@
  * PHP library version: v1.6
  */
 
-final class Worldpay
+class Worldpay
 {
 
     /**
@@ -16,7 +16,7 @@ final class Worldpay
     private $disable_ssl = false;
     private $endpoint = 'https://api.worldpay.com/v1/';
     private static $use_external_JSON = false;
-    private $order_types = ['ECOM', 'MOTO', 'RECURRING'];
+    private $order_types = array('ECOM', 'MOTO', 'RECURRING');
 
     private static $errors = array(
         "ip"        => "Invalid parameters",
@@ -34,7 +34,7 @@ final class Worldpay
             'amount'            => 'No amount found, or it is not a whole number',
             'currencyCode'      => 'No currency_code found',
             'name'              => 'No name found',
-            'billingAddress'    => 'No billing_address found'
+            //'billingAddress'    => 'No billing_address found'
         ),
         'notificationPost'      => 'Notification Error: Not a post',
         'notificationUnknown'   => 'Notification Error: Cannot be processed',
@@ -135,9 +135,9 @@ final class Worldpay
         if (!isset($order['name'])) {
             $errors[] = self::$errors['orderInput']['name'];
         }
-        if (!isset($order['billingAddress'])) {
-            $errors[] = self::$errors['orderInput']['billingAddress'];
-        }
+        //if (!isset($order['billingAddress'])) {
+        //    $errors[] = self::$errors['orderInput']['billingAddress'];
+        //}
 
         if (count($errors) > 0) {
             self::onError('ip', implode(', ', $errors));
@@ -272,7 +272,7 @@ final class Worldpay
         $defaults = array(
             'orderType' => 'ECOM',
             'customerIdentifiers' => null,
-            'billingAddress' => null,
+            //'billingAddress' => null,
             'is3DSOrder' => false,
             'authoriseOnly' => false,
             'redirectURL' => false
@@ -289,7 +289,7 @@ final class Worldpay
             "name" => $order['name'],
             "orderType" => (in_array($order['orderType'], $this->order_types)) ? $order['orderType'] : 'ECOM',
             "authorizeOnly" => ($order['authoriseOnly']) ? true : false,
-            "billingAddress" => $order['billingAddress'],
+            //"billingAddress" => $order['billingAddress'],
             "customerOrderCode" => $order['customerOrderCode'],
             "customerIdentifiers" => $order['customerIdentifiers']
         );
